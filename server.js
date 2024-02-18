@@ -2,7 +2,6 @@ const express = require('express');
 const request = require('request');
 const cors = require('cors');
 const axios = require('axios');
-const fs = require('fs');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
 require('dotenv').config()
@@ -47,5 +46,7 @@ app.use('/', function (req, res) {
     // For non-image requests, continue to proxy as before
     req.pipe(request({ uri: url, headers: { 'User-Agent': 'thuvienwibu' } })).pipe(res);
 });
+
+console.log(`server run on port ${process.env.PORT || 3000}`)
 
 app.listen(process.env.PORT || 3000);
