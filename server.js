@@ -45,8 +45,8 @@ app.use('/image/', async function (req, res) {
 });
 
 app.use('/', function (req, res) {
+    console.log(req.url)
     var url = req.url.slice(1);
-    console.log(url)
     req.pipe(request({ uri: url, headers: { 'User-Agent': 'thuvienwibu' } })).pipe(res);
 });
 
