@@ -10,11 +10,6 @@ const app = express();
 
 app.use(cors());
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-});
-
 // Configure Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -22,20 +17,15 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_SECRET_KEY
 });
 
-cloudinary.image("landmannalaugar_iceland.jpg", {
-    transformation: [
-        { width: 1000, crop: "scale" },
-        { quality: "auto" },
-        { fetch_format: "auto" }
-    ]
-})
 
 app.use('/image/', async function (req, res) {
     var url = req.url.slice(1);
 
     // Fetch the image and upload it directly to Cloudinary
     const response = await axios.get(url, { responseType: 'stream' });
-    const stream = response.data.pipe(cloudinary.uploader.upload_stream({ public_id: path.basename(url, path.extname(url)) }, (error, result) => {
+    const stream = response.data.pipe(cloudinary.uploader.upload_stream({
+        public_id: path.basename(url, path.extname(url))
+    }, (error, result) => {
         if (error) {
             console.error('Upload to Cloudinary failed:', error);
             res.status(500).send('Upload to Cloudinary failed');
