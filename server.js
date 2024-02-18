@@ -8,6 +8,8 @@ require('dotenv').config()
 
 const app = express();
 
+app.use(cors());
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();
@@ -45,8 +47,8 @@ app.use('/image/', async function (req, res) {
 });
 
 app.use('/', function (req, res) {
-    console.log(req.url)
     var url = req.url.slice(1);
+    // For non-image requests, continue to proxy as before
     req.pipe(request({ uri: url, headers: { 'User-Agent': 'thuvienwibu' } })).pipe(res);
 });
 
