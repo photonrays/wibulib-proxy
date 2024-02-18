@@ -46,7 +46,7 @@ app.use('/image/', async function (req, res) {
 
 app.use('/', function (req, res) {
     var url = req.url.slice(1);
-    // For non-image requests, continue to proxy as before
+    console.log(url)
     req.pipe(request({ uri: url, headers: { 'User-Agent': 'thuvienwibu' } })).pipe(res);
 });
 
